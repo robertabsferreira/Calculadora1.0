@@ -20,7 +20,14 @@ if (digit === "." && this.currentOperationText.innerText.includes(".")){
 
 // process all calculator operations
 processOperations(operation){
-   
+//check if current is empty
+if (this.currentOperationText.innerText === ""){
+       //change operation
+    if(this.previousOperationText.innerText !== ""){
+        this.changeOperation(operation)
+    }
+    return
+}
 
     // Get current and previous value
 let operationValue;
@@ -44,7 +51,17 @@ switch(operation) {
         operationValue = previous / current
         this.updateScreen(operationValue, operation, current, previous);
         break;      
-    default:
+    case "DEL":
+        this.processDelOperator();
+        break; 
+    case "CE":
+        this.processClearCurrentOperation();
+        break; 
+    case "C":
+        this.processClearAllOperation();
+        break;          
+        
+default:
      return;
 }
 }
@@ -68,6 +85,30 @@ updateScreen (
     this.previousOperationText.innerText = `${operationValue} ${operation}`
     this.currentOperationText.innerText = "";
    }
+}
+// change math operation
+    changeOperation(operation) {
+
+        const mathOperations = ["*","/", "+", "-"]
+
+        if(!mathOperations.includes(operation)){
+            return
+        }
+    this.previousOperationText.innerText = this.previousOperationText.innerText.slice(0,-1) + operation
+    }
+// Delete the last digit
+    processDelOperator(){
+        this.currentOperationText.innerText = this.currentOperationText.innerText.slice(0,-1);
+
+    }
+// Delete current operation
+processClearCurrentOperation(){
+    this.currentOperationText.innerText = "";
+}
+// Delete All operation
+processClearAllOperation(){
+    this.currentOperationText.innerText = "";
+    this.previousOperationText.innerText = "";
 }
 
 }
