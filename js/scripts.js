@@ -17,18 +17,16 @@ if (digit === "." && this.currentOperationText.innerText.includes(".")){
         this.currentOperation = digit
         this.updateScreen()
     }
-
 // process all calculator operations
 processOperations(operation){
 //check if current is empty
-if (this.currentOperationText.innerText === ""){
+if (this.currentOperationText.innerText === "" && operation !== "C" ){
        //change operation
     if(this.previousOperationText.innerText !== ""){
         this.changeOperation(operation)
     }
     return
 }
-
     // Get current and previous value
 let operationValue;
 const previous = +this.previousOperationText.innerText.split(" ")[0];
@@ -60,7 +58,9 @@ switch(operation) {
     case "C":
         this.processClearAllOperation();
         break;          
-        
+    case "=":
+        this.processEqualOperator();
+        break;         
 default:
      return;
 }
@@ -109,6 +109,12 @@ processClearCurrentOperation(){
 processClearAllOperation(){
     this.currentOperationText.innerText = "";
     this.previousOperationText.innerText = "";
+}
+// Process an operation
+processEqualOperator(){
+    const operation = previousOperationText.innerText.split(" ")[1];
+
+    this.processOperations(operation);
 }
 
 }
