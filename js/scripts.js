@@ -18,11 +18,56 @@ if (digit === "." && this.currentOperationText.innerText.includes(".")){
         this.updateScreen()
     }
 
+// process all calculator operations
+processOperations(operation){
+   
 
+    // Get current and previous value
+let operationValue;
+const previous = +this.previousOperationText.innerText.split(" ")[0];
+const current = +this.currentOperationText.innerText;
 
+switch(operation) {
+    case "+":
+        operationValue = previous + current
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+    case "-":
+        operationValue = previous - current
+        this.updateScreen(operationValue, operation, current, previous);
+        break;   
+    case "*":
+        operationValue = previous * current
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+    case "/":
+        operationValue = previous / current
+        this.updateScreen(operationValue, operation, current, previous);
+        break;      
+    default:
+     return;
+}
+}
 // change values of the calculator screen
-updateScreen (){
-    this.currentOperationText.innerText += this.currentOperation;
+updateScreen (
+    operationValue = null,
+    operation = null, 
+    current = null, 
+    previous = null
+){
+
+   if(operationValue === null){
+   this.currentOperationText.innerText += this.currentOperation;
+   } else {
+    // chek if value is zero, if it is just add current value
+    if(previous === 0){
+        operationValue = current
+    }
+
+    // add current value to previous
+    this.previousOperationText.innerText = `${operationValue} ${operation}`
+    this.currentOperationText.innerText = "";
+   }
 }
 
 }
@@ -36,7 +81,7 @@ buttons.forEach((btn) => {
         if(+value >= 0 || value === "."){
             calc.addDigit(value);
         } else {
-            console.log("Op: "+ value);
+            calc.processOperations(value);
         }
     });
 });
